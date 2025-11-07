@@ -43,7 +43,6 @@ body {
     border-radius: 7px;
     max-height: 3rem;
     align-self: center;
-    width: fit-content;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
@@ -55,6 +54,12 @@ body {
     color: #ffffff;
 }
 
+.double-cta-group{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-top: 1rem;
+}
 /* === Navbar Styling === */
 .navbar {
   display: flex;
