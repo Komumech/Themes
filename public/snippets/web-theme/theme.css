@@ -123,6 +123,8 @@ body {
     font-weight: 400;
     margin-top: -4px;
     border-radius: 7px;
+    max-height: 3rem;
+    right:30px;
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
