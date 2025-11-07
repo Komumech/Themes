@@ -69,14 +69,16 @@ body {
 
 /* === Navbar Styling === */
 .navbar {
-  display: flex;
-  position: absolute;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
-  background-color: transparent;
-  padding: 1rem 5%;
-  width: 100%;
+    z-index: 999;
+    width: 100vw;
+    height: 3rem;
+    height: 3.5rem; /* Slightly taller for better spacing */
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
 }
 
 .navbar.docked {
