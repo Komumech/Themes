@@ -121,10 +121,12 @@ body {
     padding: 6px 8px;
     cursor: pointer;
     font-weight: 400;
-    margin-top: -4px;
+    margin-top: 0px;
     border-radius: 7px;
     max-height: 3rem;
     right:30px;
+    position: absolute;
+    
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
