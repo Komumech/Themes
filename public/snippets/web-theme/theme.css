@@ -125,7 +125,7 @@ body {
     border-radius: 7px;
     max-height: 3rem;
     right:30px;
-    position: absolute;
+    position: relative;
     
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
