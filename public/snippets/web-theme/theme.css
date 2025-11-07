@@ -61,6 +61,18 @@ body {
     color: #ffffff;
 }
 
+.btn-skeleton {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-skeleton:hover {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border-color: var(--primary-color);
+}
+
 .double-cta-group{
     display: flex;
     flex-direction: row;
