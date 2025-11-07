@@ -6,7 +6,7 @@
   --font-family: 'Orbitron', sans-serif;
   --border-radius: 7px;
   --shadow-glow: 0 0 12px rgba(0, 255, 204, 0.5);
-  --transition-fast: 0.2s ease-in-out;
+  --transition-fast: 0.3s ease-in-out;
 }
 
 /* === Global Reset === */
@@ -41,7 +41,7 @@ body {
   font-weight: bold;
   cursor: pointer;
   padding: 6px 8px;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .btn:hover {
