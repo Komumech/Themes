@@ -33,14 +33,20 @@ body {
 
 /* === Button Styling === */
 .btn {
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  border: 2px solid #1f5afe;
-  font-size: 1.1rem;
-  font-weight: 400;
-  cursor: pointer;
-  padding: 6px 8px;
-  transition: color var(--transition-fast), background-color var(--transition-fast);
+    background-color: #1f5afe;
+    color: white;
+    font-size: 1.1rem;
+    border: 2px solid #1f5afe;
+    padding: 7px 8px;
+    cursor: pointer;
+    font-weight: 400;
+    margin-top: -11px;
+    border-radius: 7px;
+    max-height: 3rem;
+    align-self: center;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
 .btn:hover {
