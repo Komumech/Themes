@@ -52,6 +52,7 @@ body {
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    will-change: transform, box-shadow, background-color, border;
 }
 
 .btn:hover {
