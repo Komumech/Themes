@@ -40,7 +40,7 @@ body {
     background-color: #1f5afe;
     color: white;
     font-size: 1.1rem;
-    border: 2px solid #1f5afe;
+    border: none;
     padding: 7px 8px;
     width: 200px;
     height: 60px;
@@ -56,9 +56,9 @@ body {
 }
 
 .btn:hover {
-    background-color: rgba(255, 255, 255, 0);
-    border: 2px solid #ffffff;
-    color: #ffffff;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    color: #1f5afe;
 }
 
 .btn-skeleton {
