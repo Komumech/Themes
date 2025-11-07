@@ -3,7 +3,7 @@
   --accent-color: #ff00cc;
   --text-color: #ffffff;
   --bg-color: transparent;
-  --font-family: 'Orbitron', sans-serif;
+  --font-family: poppins, sans-serif;
   --border-radius: 7px;
   --shadow-glow: 0 0 12px rgba(0, 255, 204, 0.5);
   --transition-fast: 0.3s ease-in-out;
@@ -40,7 +40,7 @@ body {
   font-weight: 400;
   cursor: pointer;
   padding: 6px 8px;
-  transition: transform var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .btn:hover {
