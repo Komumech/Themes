@@ -23,6 +23,10 @@ body {
   font-family: var(--font-family);
   color: var(--text-color);
   line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 /* === Shared Components === */
@@ -38,6 +42,8 @@ body {
     font-size: 1.1rem;
     border: 2px solid #1f5afe;
     padding: 7px 8px;
+    width: 200px;
+    height: 60px;
     cursor: pointer;
     font-weight: 400;
     border-radius: 7px;
