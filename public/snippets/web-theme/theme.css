@@ -85,6 +85,9 @@ body {
 .navbar.docked {
     padding: 10px 20px;
     right: 0;
+    top: 0;
+    left: 0;
+    position: fixed;
     background-color: rgba(25, 25, 25, 0.5); /* Semi-transparent dark background */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); /* For Safari */
