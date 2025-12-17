@@ -3,100 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThemeX Alert</title>
+    <title>ThemeX Professional Alert</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* Default fallback variables */
+            --accent: #FF0000;
+            --glass: rgba(255, 255, 255, 0.04);
+            --muted: #000000;
+            --radius: 12px;
+            --bg-blur: 12px;
+        }
+
         body {
-            margin: 10px 0;
+            margin: 0;
+            padding: 10px;
             font-family: 'Inter', sans-serif;
             background-color: transparent;
-            color-scheme: dark;
             overflow: hidden;
         }
-        .alert {
+
+        .alert-container {
+            position: relative;
             display: flex;
             align-items: center;
-            padding: 15px 20px;
-            border-radius: 10px;
-            font-size: 1rem;
-            line-height: 1.4;
-            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-            border: 1px solid rgba(255,255,255,0.05);
-            border-left-width: 4px;
+            padding: 16px 20px;
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            backdrop-filter: blur(var(--bg-blur));
+            -webkit-backdrop-filter: blur(var(--bg-blur));
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--muted);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        
+        /* The accent bar on the left */
+        .alert-container::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 20%;
+            height: 60%;
+            width: 4px;
+            background: var(--accent);
+            border-radius: 0 4px 4px 0;
+        }
+
         .alert-icon {
-            font-size: 1.2rem;
-            margin-right: 15px;
-            line-height: 1;
+            font-size: 1.25rem;
+            margin-right: 16px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .alert-content {
+            flex: 1;
+            font-weight: 500;
         }
 
-        /* Type-Specific Styling */
-        .alert.success {
-            color: #a7f3d0;
-            border: 2px solid #34d399;
+        /* Smooth reveal animation */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .alert.success .alert-icon { color: #34d399; }
 
-        .alert.error {
-            color: #fca5a5;
-            border-left-color: #f87171;
-            border: 2px solid #f87171;
+        .alert-container {
+            animation: slideIn 0.4s ease-out forwards;
         }
-        .alert.error .alert-icon { color: #f87171; }
 
-        .alert.warning {
-            color: #fcd34d;
-            border-left-color: #fbbf24;
-            border: 2px solid #fbbf24;
+        @media (max-width: 480px) {
+            .alert-container { padding: 12px 16px; font-size: 0.85rem; }
         }
-        .alert.warning .alert-icon { color: #fbbf24; }
-
-        .alert.info {
-            color: #93c5fd;
-            border-left-color: #60a5fa;
-            border: 2px solid #60a5fa;
-        }
-        .alert.info .alert-icon { color: #60a5fa; }
     </style>
 </head>
 <body>
 
-<div class="alert" id="alert-box">
-    <i class="fas fa-check-circle alert-icon" id="alert-icon"></i>
-    <span id="alert-message">This is a message.</span>
+<div class="alert-container" id="alert-box">
+    <div class="alert-icon">
+        <i id="alert-icon" class="fas fa-info-circle"></i>
+    </div>
+    <div class="alert-content" id="alert-message">
+        Loading...
+    </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    /**
+     * CORE FUNCTION: Updates the UI based on URL parameters
+     */
+    const updateUI = () => {
         const params = new URLSearchParams(window.location.search);
-        const message = params.get("message") || "This is a default message.";
+        const root = document.documentElement;
+
+        // 1. STYLE BRIDGE (Maps URL Params to CSS Variables)
+        const styleBridge = {
+            'accent_color': '--accent',
+            'glass_color':  '--glass',
+            'muted_color':  '--muted',
+            'radius':       '--radius'
+        };
+
+        Object.keys(styleBridge).forEach(key => {
+            const val = params.get(key);
+            if (val) {
+                let finalValue = val;
+                // Add # for hex codes if missing
+                if (/^[0-9A-Fa-f]{3,8}$/.test(val)) finalValue = `#${val}`;
+                // Add px for radius
+                if (key === 'radius' && !isNaN(val)) finalValue += 'px';
+                
+                root.style.setProperty(styleBridge[key], finalValue);
+            }
+        });
+
+        // 2. CONTENT LOGIC
         const type = params.get("type") || "info";
-        const frameId = params.get("frame_id");
-
-        const alertBox = document.getElementById("alert-box");
-        const alertIcon = document.getElementById("alert-icon");
+        const message = params.get("message") || "Default alert message.";
+        
         document.getElementById("alert-message").textContent = decodeURIComponent(message);
-
-        alertBox.className = `alert ${type}`;
 
         const icons = {
             success: "fas fa-check-circle",
-            error: "fas fa-times-circle",
-            warning: "fas fa-exclamation-triangle",
-            info: "fas fa-info-circle"
+            error: "fas fa-exclamation-circle",
+            warning: "fas fa-triangle-exclamation",
+            info: "fas fa-circle-info"
         };
-        alertIcon.className = `${icons[type] || icons.info} alert-icon`;
+        document.getElementById("alert-icon").className = icons[type] || icons.info;
 
-        function sendHeight() {
-            if (!frameId || !window.parent) return;
-            const height = document.body.scrollHeight;
-            window.parent.postMessage({ frameId: frameId, frameHeight: height }, "*");
-        }
-
+        // Ensure parent reflects new height
         sendHeight();
-        window.addEventListener('resize', sendHeight);
+    };
+
+    /**
+     * LIVE LISTENER: Allows parent page to update values via JS
+     */
+    window.addEventListener('message', (event) => {
+        // Only accept specifically tagged updates
+        if (event.data.type === 'THEMEX_UPDATE') {
+            const currentUrl = new URL(window.location.href);
+            
+            // Apply new config values to the current URL state
+            Object.keys(event.data.config).forEach(key => {
+                currentUrl.searchParams.set(key, event.data.config[key]);
+            });
+
+            // Update URL without refreshing the page
+            window.history.replaceState(null, '', currentUrl.search);
+            
+            // Re-run the UI logic
+            updateUI();
+        }
     });
+
+    /**
+     * RESIZING LOGIC
+     */
+    function sendHeight() {
+        const params = new URLSearchParams(window.location.search);
+        const frameId = params.get('frame_id');
+        if (frameId && window.parent) {
+            const height = document.body.scrollHeight;
+            window.parent.postMessage({ frameId, frameHeight: height }, '*');
+        }
+    }
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', updateUI);
+    window.addEventListener('resize', sendHeight);
+    
+    // Safety timeout for external font rendering
+    setTimeout(sendHeight, 600);
 </script>
 
 </body>
