@@ -10,11 +10,14 @@
 <body>
     <style>
         :root{
-  --bg:#0f1724;
+  --bg:#ffffff;
   --card:#0b1220;
   --accent:#00b894;
-  --muted:#9aa4b2;
-  --glass: rgba(255,255,255,0.04);
+  --accent2:#2427cd;
+  --navbar-bg-color:#0f1724;
+  --muted:#000000;
+  --subhead-color:#0080ff;
+  --glass: #f6c3c362;
   --max-width:1200px;
   --radius:12px;
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
@@ -25,7 +28,7 @@
 html,body{height:100%}
 body{
   margin:0;
-  background: linear-gradient(180deg,#071021 0%, #071827 100%);
+  background: var(--bg);
   color:#e6eef6;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
@@ -45,7 +48,7 @@ body{
   top:0;
   z-index:40;
   backdrop-filter: blur(6px);
-  background: linear-gradient(180deg, rgba(7,10,20,0.6), rgba(7,10,20,0.35));
+  background: var(--navbar-bg-color);
   border-bottom:1px solid rgba(255,255,255,0.03);
 }
 .header-inner{
@@ -118,7 +121,7 @@ body{
   border:1px solid transparent;
 }
 .btn-primary{
-  background: linear-gradient(90deg,var(--accent), #00d1a1);
+  background: linear-gradient(90deg,var(--accent), var(--accent2));
   color:#042024;
   box-shadow: 0 8px 30px rgba(0,184,148,0.12);
 }
@@ -192,12 +195,16 @@ body{
   margin-top:18px;
 }
 .feature-card{
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  background: var(--glass);
   border-radius:12px;
   padding:18px;
   border:1px solid rgba(255,255,255,0.03);
 }
-.feature-card h3{margin:0 0 8px;font-size:1.05rem}
+.feature-card h3{
+  margin:0 0 8px;
+  font-size:1.05rem;
+  color: var(--subhead-color);
+}
 .feature-card p{margin:0;color:var(--muted);font-size:0.95rem}
 
 /* Modal */
@@ -380,6 +387,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // --- DYNAMIC CONTENT INJECTION ---
   const root = document.documentElement;
 
+  // Helper to set a CSS variable if a URL parameter exists
+  const setCssVar = (paramName, varName, isColor = false, unit = '') => {
+    const value = params.get(paramName);
+    if (value) {
+      // For colors, add '#' if it's a 6 or 8-digit hex, otherwise use the value as is (for rgba, etc.)
+      const finalValue = isColor && /^[0-9A-Fa-f]{6,8}$/.test(value) ? `#${value}` : value;
+      root.style.setProperty(varName, finalValue + unit);
+    }
+  };
+
   // Helper to set text content if param exists
   const setText = (id, paramName, defaultValue) => {
     const element = document.getElementById(id);
@@ -404,9 +421,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-  // Colors
-  const accentColor = params.get('accent_color');
-  if (accentColor) root.style.setProperty('--accent', `#${accentColor}`);
+  // --- Style Customization ---
+  setCssVar('bg_color', '--bg', true);
+  setCssVar('card_color', '--card', true);
+  setCssVar('accent_color', '--accent', true);
+  setCssVar('accent2_color', '--accent2', true);
+  setCssVar('navbar_bg_color', '--navbar-bg-color', true);
+  setCssVar('muted_color', '--muted', true);
+  setCssVar('subhead_color', '--subhead-color', true);
+  setCssVar('glass_color', '--glass', true); // Now handles hex/rgba
+  setCssVar('max_width', '--max-width', false, 'px');
+  setCssVar('radius', '--radius', false, 'px');
+
 
   // Header
   setText('brand-logo', 'brand_text', 'XTRA Watch');
