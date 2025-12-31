@@ -78,6 +78,7 @@
             max-width: 800px;
             width: 90%;
             height: auto;
+            z-index: 6;
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
             animation: float 6s ease-in-out infinite;
         }
@@ -135,7 +136,7 @@
         @media (max-width: 768px) {
             h1 { font-size: 3.5rem; }
             .hero-content { padding-top: 10rem; }
-            #f1{display: none;}
+            #f1{display: none !important;}
             .subtitle { font-size: 1.1rem; padding: 0 1rem; }
         }
     </style>
