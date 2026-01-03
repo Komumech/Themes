@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide Hero</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; }
+        /* Scoped styles for the hero snippet to prevent conflicts */
+        .pace-hero-wrapper {
+            font-family: 'Inter', sans-serif;
+            /* Gradient Background */
+            background: linear-gradient(135deg, var(--gradient-start, #ff6b4a) 0%, var(--gradient-end, #ff4757) 100%);
+            color: var(--text-color, #ffffff);
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+        }
+
+        /* Halftone pattern overlay */
+        .pace-hero-wrapper::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* Creates the dot pattern */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.15) 2px, transparent 2px);
+            background-size: 24px 24px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Interactive Hover Effect (Colored Dots) */
+        .pace-hero-wrapper::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            /* Colored dots that appear on hover */
+            background-image: radial-gradient(var(--dot-hover-color, #ffd700) 2px, transparent 2px);
+            background-size: 24px 24px;
+            /* Mask to reveal them around the mouse */
+            mask-image: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), black 0%, transparent 40%);
+            -webkit-mask-image: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), black 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .pace-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        /* Hero Content Layout */
+        .pace-hero-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            padding-top: 1.2rem;
+            padding-bottom: 2rem;
+            align-items: start;
+        }
+
+        .pace-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            line-height: 1.05;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        .pace-sub-col {
+            max-width: 600px;
+            margin-top: 5rem;
+        }
+
+        .pace-sub-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .pace-description {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            opacity: 0.95;
+            margin-bottom: 35px;
+        }
+
+        .pace-reviews {
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .pace-wreath-svg {
+            width: 50px;
+            height: 50px;
+            fill: none;
+            stroke: var(--text-color, #ffffff);
+            stroke-width: 1.5;
+        }
+        .pace-btn-primary {
+            background: var(--btn-primary-bg, #FFDBC2);
+            color: var(--btn-primary-text, #1a1a1a);
+            border: none;
+        }
+
+                .pace-btn {
+            padding: 0 24px;
+            height: 48px;
+            border-radius: var(--pill-radius, 50px);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+        
+        .pace-btn:hover {
+            transform: translateY(-2px);
+        }
+        /* Responsive Breakpoints */
+        @media (min-width: 992px) {
+            .pace-hero-content {
+                grid-template-columns: 1.1fr 0.9fr;
+                margin-top: 60px;
+            }
+
+            .pace-headline {
+                font-size: 6rem; /* Large desktop font size */
+            }
+        }
+        @media (max-width: 768px) {
+            .pace-sub-col{
+                margin-top: 0rem;
+            }
+            .pace-hero-content{
+                margin-top: 3rem;
+            }
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="pace-hero-wrapper">
+        <div class="pace-container">
+            <!-- Main Hero Content -->
+            <div class="pace-hero-content">
+                <!-- Left Column: Headline -->
+                <h1 class="pace-headline" id="headline">
+                    Dependable HR<br>
+                    Partner that<br>
+                    helps you thrive.
+                </h1>
+
+                <!-- Right Column: Details -->
+                <div class="pace-sub-col">
+                    <div class="pace-sub-title" id="subtitle">
+                        No call centres, no copy-paste policies, bespoke by default.
+                    </div>
+                    <p class="pace-description" id="description">
+                        We are a team of experienced HR Consultants who care deeply about what we do. Whether it is a policy, a project or a tricky conversation - we take pride in our advice and our delivery, as no two businesses are the same.
+                    </p>
+                    
+                    <a href="#" class="pace-btn pace-btn-primary" id="cta-btn-2" style="height: 56px; padding: 0 32px; font-size: 1.1rem;" target="_top">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M10 16l4 0"></path><path d="M12 14l0 4"></path></svg>
+                        Book a call
+                    </a>
+
+                    <!-- Reviews Section -->
+                    <div class="pace-reviews">
+                        <!-- Simplified Laurel Wreath SVG -->
+                        <svg class="pace-wreath-svg" viewBox="0 0 64 64">
+                            <path d="M12 48 C 8 36, 16 16, 32 8" stroke-linecap="round" />
+                            <path d="M52 48 C 56 36, 48 16, 32 8" stroke-linecap="round" />
+                            <!-- Leaves Left -->
+                            <path d="M12 48 L 8 42 M 14 44 L 10 36 M 18 40 L 14 30" stroke-linecap="round"/>
+                            <!-- Leaves Right -->
+                            <path d="M52 48 L 56 42 M 50 44 L 54 36 M 46 40 L 50 30" stroke-linecap="round"/>
+                        </svg>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                            <div style="color: #fff; letter-spacing: 2px; font-size: 12px;">★★★★★</div>
+                            <div style="font-size: 0.85rem; font-weight: 500;">Rated 4.9 stars</div>
+                            <a href="#" style="color: white; font-size: 0.85rem; text-decoration: underline;" target="_top">Google reviews</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+
+        if(params.get('headline')) document.getElementById('headline').innerHTML = params.get('headline');
+        if(params.get('subtitle')) document.getElementById('subtitle').textContent = params.get('subtitle');
+        if(params.get('description')) document.getElementById('description').textContent = params.get('description');
+
+        // Buttons
+        if(params.get('cta_text')) {
+            const text = params.get('cta_text');
+            // Update both top and bottom CTAs
+            document.getElementById('cta-btn-2').textContent = text;
+        }
+        if(params.get('cta_href')) {
+            const href = params.get('cta_href');
+            document.getElementById('cta-btn-2').href = href;
+        }
+
+        // Reviews
+        if(params.get('rating_text')) document.getElementById('rating-text').textContent = params.get('rating_text');
+        if(params.get('reviews_text')) document.getElementById('reviews-link').textContent = params.get('reviews_text');
+
+        // Colors
+        if(params.get('gradient_start')) document.documentElement.style.setProperty('--gradient-start', '#' + params.get('gradient_start'));
+        if(params.get('gradient_end')) document.documentElement.style.setProperty('--gradient-end', '#' + params.get('gradient_end'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+
+        // Design
+        if(params.get('dot_hover_color')) document.documentElement.style.setProperty('--dot-hover-color', '#' + params.get('dot_hover_color'));
+
+        // Mouse Tracking for Background Effect
+        document.addEventListener('mousemove', (e) => {
+            const wrapper = document.querySelector('.pace-hero-wrapper');
+            wrapper.style.setProperty('--mouse-x', e.clientX + 'px');
+            wrapper.style.setProperty('--mouse-y', e.clientY + 'px');
+        });
+
+        // Resizing
+        const sendHeight = () => {
+            if(params.get('frame_id')) {
+                window.parent.postMessage({
+                    frameId: params.get('frame_id'),
+                    frameHeight: document.body.scrollHeight
+                }, '*');
+            }
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>

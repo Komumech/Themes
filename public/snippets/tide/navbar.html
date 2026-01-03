@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide Navbar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 10px 20px; font-family: 'Inter', sans-serif; overflow: hidden; background: transparent; }
+        
+        /* Navigation Bar */
+        .pace-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Glassmorphism Pill Styles */
+        .pace-pill {
+            background: var(--pill-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: var(--pill-radius, 50px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color, #1a1a1a);
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        /* Left Group: Logo + Hamburger */
+        .pace-left-group {
+            position: relative;
+            z-index: 20;
+        }
+
+        .pace-menu-pill {
+            padding: 8px 24px;
+            gap: 16px;
+            cursor: pointer;
+            height: 54px;
+            box-sizing: border-box;
+        }
+        .pace-menu-pill:hover {
+            background: var(--pill-hover-bg);
+        }
+
+        .pace-logo-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .pace-logo-circle {
+            border: 1px solid currentColor;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 400;
+        }
+
+        .pace-sep {
+            width: 1px;
+            height: 24px;
+            background: currentColor;
+            opacity: 0.2;
+        }
+
+        .pace-hamburger {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Desktop Links Dropdown */
+        .pace-desktop-links {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            background: var(--pill-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 8px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            border: 1px solid rgb(242, 240, 240);
+        }
+
+        @media (min-width: 992px) {
+            .pace-left-group:hover .pace-desktop-links {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                pointer-events: auto;
+            }
+        }
+
+        .pace-desktop-link {
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--text-color, #1a1a1a);
+            font-weight: 500;
+            border-radius: 12px;
+            transition: background 0.2s;
+            display: block;
+        }
+        .pace-desktop-link:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+        /* Right CTA */
+        .pace-cta-pill {
+            padding: 0 28px;
+            height: 54px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+        .pace-cta-pill:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Menu Dropdown */
+        .pace-mobile-dropdown {
+            background: var(--pill-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .pace-mobile-dropdown.active {
+            max-height: 500px;
+            padding: 20px;
+        }
+
+        .pace-mobile-link {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 12px;
+            transition: background 0.2s;
+            display: block;
+        }
+
+        .pace-mobile-link:hover {
+            background: var(--pill-bg);
+        }
+
+        @media (max-width: 991px) {
+            .pace-desktop-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="pace-nav">
+        <!-- Left Group: Brand + Menu Trigger -->
+        <div class="pace-left-group" id="left-group">
+            <div class="pace-pill pace-menu-pill" id="menu-trigger">
+                <div class="pace-logo-text" id="brand">PACE <span class="pace-logo-circle">HR</span></div>
+                <div class="pace-sep"></div>
+                <div class="pace-hamburger">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </div>
+            </div>
+            <!-- Desktop Hover Menu -->
+            <div class="pace-desktop-links" id="desktop-links"></div>
+        </div>
+
+        <!-- Right Group: CTA -->
+        <div class="pace-right-group">
+            <a href="#" class="pace-pill pace-cta-pill" id="cta-btn" target="_top">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M10 16l4 0"></path><path d="M12 14l0 4"></path></svg>
+                <span id="cta-text">Book a call</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="pace-mobile-dropdown" id="mobile-menu"></div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        // Content
+        if(params.get('brand')) document.getElementById('brand').innerHTML = params.get('brand');
+        if(params.get('cta_text')) document.getElementById('cta-text').textContent = params.get('cta_text');
+        if(params.get('cta_href')) document.getElementById('cta-btn').href = params.get('cta_href');
+
+        // Colors & Design
+        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.get('pill_bg')) document.documentElement.style.setProperty('--pill-bg', '#' + params.get('pill_bg'));
+        if(params.get('pill_radius')) document.documentElement.style.setProperty('--pill-radius', params.get('pill_radius'));
+
+        // Links
+        const desktopLinks = document.getElementById('desktop-links');
+        const mobileMenu = document.getElementById('mobile-menu');
+        for(let i=1; i<=6; i++) {
+            if(params.get(`link${i}_text`)) {
+                const text = params.get(`link${i}_text`);
+                const href = params.get(`link${i}_href`) || '#';
+                
+                // Desktop
+                const a = document.createElement('a');
+                a.className = 'pace-desktop-link';
+                a.href = href; a.textContent = text; a.target = "_top";
+                desktopLinks.appendChild(a);
+
+                // Mobile
+                const m = document.createElement('a');
+                m.className = 'pace-mobile-link';
+                m.href = href; m.textContent = text; m.target = "_top";
+                mobileMenu.appendChild(m);
+            }
+        }
+
+        // Mobile Toggle (Click)
+        const menuTrigger = document.getElementById('menu-trigger');
+        menuTrigger.addEventListener('click', () => {
+            // Only toggle mobile menu if screen is small
+            if (window.innerWidth <= 991) {
+                mobileMenu.classList.toggle('active');
+                animateHeight();
+            }
+        });
+
+        // Desktop Hover Animation Trigger
+        const leftGroup = document.getElementById('left-group');
+        leftGroup.addEventListener('mouseenter', animateHeight);
+        leftGroup.addEventListener('mouseleave', animateHeight);
+
+        function animateHeight() {
+            const interval = setInterval(sendHeight, 10);
+            setTimeout(() => { clearInterval(interval); sendHeight(); }, 500);
+        }
+
+        const sendHeight = () => {
+            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+        mobileMenu.addEventListener('transitionend', sendHeight);
+    </script>
+</body>
+</html>
