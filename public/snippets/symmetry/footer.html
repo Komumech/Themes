@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symmetry Footer</title>
+    <base target="_blank">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Manrope:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 80px 40px 40px 40px; font-family: 'Manrope', sans-serif; overflow: hidden; border-top: 1px solid rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between; min-height: 400px; box-sizing: border-box; }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto 60px auto;
+        }
+        
+        .big-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 12vw;
+            line-height: 0.8;
+            text-align: center;
+            font-style: italic;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        .col h4 { font-size: 14px; font-weight: 700; margin: 0 0 20px 0; opacity: 0.5; }
+        .col a, .col p { display: block; color: inherit; text-decoration: none; font-size: 13px; margin-bottom: 15px; line-height: 1.6; text-transform: uppercase; letter-spacing: 1px; }
+        .col a:hover { text-decoration: underline; }
+        
+        .copyright { text-align: center; font-size: 12px; opacity: 0.4; margin-top: 20px; }
+
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+        }
+        @media (max-width: 480px) {
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="footer-grid">
+        <div class="col" id="col1">
+            <!-- Links injected here -->
+        </div>
+        <div class="col" id="col2">
+            <!-- Address/Contact injected here -->
+        </div>
+        <div class="col" id="col3">
+            <!-- Socials injected here -->
+        </div>
+        <div class="col">
+             <!-- Extra column for balance or logo -->
+             <p>Est. 2025</p>
+        </div>
+    </div>
+    
+    <div class="big-brand" id="brand">Coral Cove</div>
+    <div class="copyright" id="copyright">© 2025 All Rights Reserved</div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        if(params.get('bg_color')) document.body.style.backgroundColor = '#' + params.get('bg_color');
+        if(params.get('text_color')) document.body.style.color = '#' + params.get('text_color');
+
+        document.getElementById('brand').textContent = params.get('brand') || 'Coral Cove';
+        document.getElementById('copyright').textContent = params.get('copyright') || '© 2025 All Rights Reserved';
+
+        function buildCol(id, data) {
+            const col = document.getElementById(id);
+            if(!data) return;
+            data.split(',').forEach(item => {
+                const [text, href] = item.split('|');
+                if(href) {
+                    col.innerHTML += `<a href="${href}">${text}</a>`;
+                } else {
+                    col.innerHTML += `<p>${text}</p>`;
+                }
+            });
+        }
+
+        buildCol('col1', params.get('col1_content'));
+        buildCol('col2', params.get('col2_content'));
+        buildCol('col3', params.get('col3_content'));
+
+        const sendHeight = () => { 
+            if(params.get('frame_id')) {
+                window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight + 20}, '*'); 
+            }
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>

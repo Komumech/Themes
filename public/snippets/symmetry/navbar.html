@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symmetry Navbar</title>
+    <base target="_blank">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 20px 40px; font-family: 'Manrope', sans-serif; overflow: hidden; box-sizing: border-box; }
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid rgba(0,0,0,0.1); 
+            padding-bottom: 20px; 
+            position: relative;
+        }
+        .brand { font-family: 'Playfair Display', serif; font-size: 28px; font-style: italic; color: #1a1a1a; text-decoration: none; }
+        
+        .nav-center { display: flex; gap: 30px; }
+        .nav-link { text-decoration: none; color: inherit; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; opacity: 0.6; transition: 0.3s; }
+        .nav-link:hover { opacity: 1; }
+
+        .menu-icon { display: none; font-size: 24px; cursor: pointer; }
+        
+        .btn { padding: 10px 0; border-bottom: 1px solid transparent; text-decoration: none; color: #1a1a1a; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .btn:hover { border-bottom-color: currentColor; }
+        
+        @media (max-width: 768px) {
+            body { padding: 15px 20px; }
+            .nav-center { display: none; }
+            .menu-icon { display: block; }
+            .btn { display: none; }
+        }
+
+        /* Mobile Menu Overlay */
+        .nav-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .nav-overlay.active { opacity: 1; pointer-events: all; }
+        .nav-links-container a {
+            display: block;
+            color: #1a1a1a;
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            text-decoration: none;
+            margin: 15px 0;
+            font-style: italic;
+            text-align: center;
+        }
+        .close-btn {
+            position: absolute; top: 20px; right: 20px;
+            color: #1a1a1a; font-size: 36px; cursor: pointer; line-height: 1;
+        }
+    </style>
+</head>
+<body>
+    <nav id="nav">
+        <a href="#" class="brand" id="brand">Coral Cove</a>
+        <div class="nav-center" id="desktop-links"></div>
+        <div class="menu-icon" id="menu" onclick="toggleMenu()">☰</div>
+        <a href="#" class="btn" id="cta">Reservation</a>
+    </nav>
+    
+    <!-- Menu Overlay -->
+    <div class="nav-overlay" id="nav-overlay">
+        <div class="close-btn" onclick="toggleMenu()">×</div>
+        <div class="nav-links-container" id="nav-links"></div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        // Colors
+        const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#1a1a1a';
+        const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : 'transparent';
+        
+        document.body.style.backgroundColor = bgColor;
+        document.getElementById('brand').style.color = textColor;
+        document.getElementById('menu').style.borderColor = textColor;
+        document.getElementById('menu').style.color = textColor;
+        document.getElementById('cta').style.borderColor = textColor;
+        document.getElementById('cta').style.color = textColor;
+        
+        // Overlay Colors
+        const overlay = document.getElementById('nav-overlay');
+        if(params.get('bg_color') && params.get('bg_color') !== 'transparent') {
+            overlay.style.backgroundColor = '#' + params.get('bg_color');
+        }
+        document.querySelector('.close-btn').style.color = textColor;
+
+        if(params.get('brand')) document.getElementById('brand').textContent = params.get('brand');
+        if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
+        if(params.get('cta_href')) document.getElementById('cta').href = params.get('cta_href');
+        
+        // Menu Logic
+        function toggleMenu() {
+            const overlay = document.getElementById('nav-overlay');
+            const isActive = overlay.classList.toggle('active');
+            if (isActive) {
+                sendHeight(600); // Expand to show menu
+            } else {
+                sendHeight(100); // Collapse back to navbar height
+            }
+        }
+
+        const mobileContainer = document.getElementById('nav-links');
+        const desktopContainer = document.getElementById('desktop-links');
+        const linksParam = params.get('nav_links') || 'Home|#,Menu|#,About|#,Contact|#';
+        
+        linksParam.split(',').forEach(item => {
+            const [text, href] = item.split('|');
+            
+            // Desktop Link
+            const a = document.createElement('a');
+            a.className = 'nav-link';
+            a.textContent = text;
+            a.href = href || '#';
+            a.style.color = textColor;
+            desktopContainer.appendChild(a);
+
+            // Mobile Link
+            const ma = a.cloneNode(true);
+            ma.className = ''; // Reset class for mobile styling
+            mobileContainer.appendChild(ma);
+        });
+
+        const sendHeight = (h) => { 
+            const height = h || document.body.scrollHeight;
+            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: height}, '*'); 
+        }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>
